@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Rankings - FDF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1f2e 0%, #16213e 100%);
+            color: #333;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #d0d0d0;
+            font-weight: 300;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 15px 30px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            border-color: #00a8ff;
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.5);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .table-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .table-header h2 {
+            font-size: 2.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            background: #f8f9fa;
+            border-bottom: 3px solid #0066cc;
+        }
+
+        thead th {
+            padding: 18px 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.05em;
+            color: #0066cc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #f0f4ff;
+            box-shadow: inset 5px 0 0 #0066cc;
+        }
+
+        tbody td {
+            padding: 20px 25px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        tbody td:first-child {
+            font-weight: 700;
+            color: #0066cc;
+            font-size: 1.8em;
+        }
+
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+            color: #495057;
+            font-weight: 700;
+            font-size: 1.4em;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #ffffff;
+        }
+
+        /* Ranking badges */
+        .rank-1 {
+            color: #ffd700;
+            font-weight: 900;
+            font-size: 1.3em;
+        }
+
+        .rank-2 {
+            color: #c0c0c0;
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            padding: 0 30px 30px 30px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6eeff 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #0066cc;
+        }
+
+        .stat-box h4 {
+            color: #0066cc;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .stat-box .value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #0052a3;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                padding: 0 20px 20px 20px;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            thead th, tbody td {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏈 FOOTBALL RANKINGS</h1>
+            <p>FDF Top-5 Player Rankings & Performance Analysis</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('rb')">Running Backs</button>
+            <button class="tab-btn" onclick="switchTab('wr')">Wide Receivers</button>
+            <button class="tab-btn" onclick="switchTab('qb')">Quarterbacks</button>
+            <button class="tab-btn" onclick="switchTab('te')">Tight Ends</button>
+        </div>
+
+        <!-- RUNNING BACKS -->
+        <div id="rb-table" class="table-container active">
+            <div class="table-header">
+                <h2>🏃 Running Backs</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player Name</th>
+                        <th>Top-5 Appearances</th>
+                        <th>Accumulated Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="rank-1">🥇</td><td>J. Taylor</td><td>5</td><td>22</td></tr>
+                    <tr><td class="rank-2">🥈</td><td>C. McCaffrey</td><td>5</td><td>16</td></tr>
+                    <tr><td class="rank-3">🥉</td><td>R. Dowdle</td><td>3</td><td>13</td></tr>
+                    <tr><td>4</td><td>B. Robinson</td><td>4</td><td>11</td></tr>
+                    <tr><td>5</td><td>J. Cook</td><td>3</td><td>10</td></tr>
+                    <tr><td>6</td><td>J. Jacobs</td><td>3</td><td>9</td></tr>
+                    <tr><td>7</td><td>J. Gibbs</td><td>2</td><td>7</td></tr>
+                    <tr><td>8</td><td>A. Jeanty</td><td>2</td><td>6</td></tr>
+                    <tr><td>9</td><td>D. Achane</td><td>2</td><td>5</td></tr>
+                    <tr><td>10</td><td>D. Henry</td><td>1</td><td>5</td></tr>
+                    <tr><td>11</td><td>J. Williams</td><td>2</td><td>3</td></tr>
+                    <tr><td>12</td><td>K. Williams</td><td>1</td><td>3</td></tr>
+                </tbody>
+            </table>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h4>Top Player</h4>
+                    <div class="value">J. Taylor</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Total Players</h4>
+                    <div class="value">12</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Avg Points</h4>
+                    <div class="value">7.83</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDE RECEIVERS -->
+        <div id="wr-table" class="table-container">
+            <div class="table-header">
+                <h2>⚡ Wide Receivers</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player Name</th>
+                        <th>Top-5 Appearances</th>
+                        <th>Accumulated Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="rank-1">🥇</td><td>J. Chase</td><td>5</td><td>15</td></tr>
+                    <tr><td class="rank-2">🥈</td><td>D. London</td><td>3</td><td>11</td></tr>
+                    <tr><td class="rank-3">🥉</td><td>P. Nacua</td><td>5</td><td>9</td></tr>
+                    <tr><td>4</td><td>A. St. Brown</td><td>2</td><td>7</td></tr>
+                    <tr><td>5</td><td>E. Egbuka</td><td>2</td><td>7</td></tr>
+                    <tr><td>6</td><td>J. Smith-Njigba</td><td>2</td><td>6</td></tr>
+                    <tr><td>7</td><td>Z. Flowers</td><td>1</td><td>5</td></tr>
+                    <tr><td>8</td><td>A.J. Brown</td><td>2</td><td>4</td></tr>
+                    <tr><td>9</td><td>G. Wilson</td><td>1</td><td>4</td></tr>
+                    <tr><td>10</td><td>R. Rice</td><td>1</td><td>4</td></tr>
+                    <tr><td>11</td><td>M. Pittman Jr.</td><td>1</td><td>3</td></tr>
+                </tbody>
+            </table>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h4>Top Player</h4>
+                    <div class="value">J. Chase</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Total Players</h4>
+                    <div class="value">11</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Avg Points</h4>
+                    <div class="value">6.91</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUARTERBACKS -->
+        <div id="qb-table" class="table-container">
+            <div class="table-header">
+                <h2>🎯 Quarterbacks</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player Name</th>
+                        <th>Top-5 Appearances</th>
+                        <th>Accumulated Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="rank-1">🥇</td><td>D. Maye</td><td>3</td><td>11</td></tr>
+                    <tr><td class="rank-2">🥈</td><td>C. Williams</td><td>2</td><td>10</td></tr>
+                    <tr><td class="rank-3">🥉</td><td>J. Allen</td><td>2</td><td>8</td></tr>
+                    <tr><td>4</td><td>D. Prescott</td><td>2</td><td>8</td></tr>
+                    <tr><td>5</td><td>P. Mahomes</td><td>2</td><td>8</td></tr>
+                    <tr><td>6</td><td>J. Herbert</td><td>2</td><td>7</td></tr>
+                    <tr><td>7</td><td>J. Goff</td><td>1</td><td>5</td></tr>
+                    <tr><td>8</td><td>B. Nix</td><td>1</td><td>5</td></tr>
+                    <tr><td>9</td><td>J. Love</td><td>1</td><td>5</td></tr>
+                    <tr><td>10</td><td>J. Hurts</td><td>1</td><td>4</td></tr>
+                    <tr><td>11</td><td>L. Jackson</td><td>1</td><td>3</td></tr>
+                </tbody>
+            </table>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h4>Top Player</h4>
+                    <div class="value">D. Maye</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Total Players</h4>
+                    <div class="value">11</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Avg Points</h4>
+                    <div class="value">6.73</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIGHT ENDS -->
+        <div id="te-table" class="table-container">
+            <div class="table-header">
+                <h2>🎪 Tight Ends</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player Name</th>
+                        <th>Top-5 Appearances</th>
+                        <th>Accumulated Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="rank-1">🥇</td><td>J. Ferguson</td><td>3</td><td>10</td></tr>
+                    <tr><td class="rank-2">🥈</td><td>T. Warren</td><td>3</td><td>10</td></tr>
+                    <tr><td class="rank-3">🥉</td><td>Dallas Goadert</td><td>2</td><td>10</td></tr>
+                    <tr><td>4</td><td>B. Bowers</td><td>2</td><td>9</td></tr>
+                    <tr><td>5</td><td>T. McBride</td><td>2</td><td>8</td></tr>
+                    <tr><td>6</td><td>O. Gadsen</td><td>2</td><td>8</td></tr>
+                    <tr><td>7</td><td>H. Henry</td><td>1</td><td>5</td></tr>
+                    <tr><td>8</td><td>M. Andrews</td><td>1</td><td>4</td></tr>
+                    <tr><td>9</td><td>T. Kelce</td><td>1</td><td>4</td></tr>
+                    <tr><td>10</td><td>D. Kincaid</td><td>1</td><td>3</td></tr>
+                </tbody>
+            </table>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h4>Top Player</h4>
+                    <div class="value">J. Ferguson</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Total Players</h4>
+                    <div class="value">10</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Avg Points</h4>
+                    <div class="value">7.10</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🏈 Football Rankings Dashboard | FDF Analysis 2025</p>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Ocultar todas las tablas
+            document.querySelectorAll('.table-container').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Desactivar todos los botones
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar tabla seleccionada
+            document.getElementById(tabName + '-table').classList.add('active');
+
+            // Activar botón correspondiente
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
