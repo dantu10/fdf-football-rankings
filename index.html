@@ -172,7 +172,6 @@
             background: #ffffff;
         }
 
-        /* Ranking badges */
         .rank-1 {
             color: #ffd700;
             font-weight: 900;
@@ -277,10 +276,10 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('rb')">Running Backs</button>
-            <button class="tab-btn" onclick="switchTab('wr')">Wide Receivers</button>
-            <button class="tab-btn" onclick="switchTab('qb')">Quarterbacks</button>
-            <button class="tab-btn" onclick="switchTab('te')">Tight Ends</button>
+            <button class="tab-btn active" onclick="switchTab(event, 'rb')">Running Backs</button>
+            <button class="tab-btn" onclick="switchTab(event, 'wr')">Wide Receivers</button>
+            <button class="tab-btn" onclick="switchTab(event, 'qb')">Quarterbacks</button>
+            <button class="tab-btn" onclick="switchTab(event, 'te')">Tight Ends</button>
         </div>
 
         <!-- RUNNING BACKS -->
@@ -314,6 +313,14 @@
                     <tr><td>14</td><td>O. Hampton</td><td>1</td><td>2</td></tr>
                     <tr><td>15</td><td>T. Henderson</td><td>1</td><td>2</td></tr>
                     <tr><td>16</td><td>C. Brown</td><td>1</td><td>1</td></tr>
+                    <tr><td>17</td><td>B. Irving</td><td>0</td><td>0</td></tr>
+                    <tr><td>18</td><td>T. Etienne</td><td>0</td><td>0</td></tr>
+                    <tr><td>19</td><td>J.K Dobbins</td><td>0</td><td>0</td></tr>
+                    <tr><td>20</td><td>A. Kamara</td><td>0</td><td>0</td></tr>
+                    <tr><td>21</td><td>K. Walker</td><td>0</td><td>0</td></tr>
+                    <tr><td>22</td><td>I. Pacheco</td><td>0</td><td>0</td></tr>
+                    <tr><td>23</td><td>D. Swift</td><td>0</td><td>0</td></tr>
+                    <tr><td>24</td><td>J. Warren</td><td>0</td><td>0</td></tr>
                 </tbody>
             </table>
             <div class="stats-row">
@@ -323,11 +330,11 @@
                 </div>
                 <div class="stat-box">
                     <h4>Total Players</h4>
-                    <div class="value">16</div>
+                    <div class="value">24</div>
                 </div>
                 <div class="stat-box">
                     <h4>Avg Points</h4>
-                    <div class="value">8.19</div>
+                    <div class="value">5.42</div>
                 </div>
             </div>
         </div>
@@ -359,6 +366,18 @@
                     <tr><td>10</td><td>R. Rice</td><td>1</td><td>4</td></tr>
                     <tr><td>11</td><td>M. Pittman Jr.</td><td>1</td><td>3</td></tr>
                     <tr><td>12</td><td>N. Collins</td><td>1</td><td>1</td></tr>
+                    <tr><td>13</td><td>J. Jefferson</td><td>0</td><td>0</td></tr>
+                    <tr><td>14</td><td>C. Lamb</td><td>0</td><td>0</td></tr>
+                    <tr><td>15</td><td>DK Metcalf</td><td>0</td><td>0</td></tr>
+                    <tr><td>16</td><td>J. Waddle</td><td>0</td><td>0</td></tr>
+                    <tr><td>17</td><td>C. Olave</td><td>0</td><td>0</td></tr>
+                    <tr><td>18</td><td>B. Thomas</td><td>0</td><td>0</td></tr>
+                    <tr><td>19</td><td>L. McConkey</td><td>0</td><td>0</td></tr>
+                    <tr><td>20</td><td>T. McMillan</td><td>0</td><td>0</td></tr>
+                    <tr><td>21</td><td>K. Shakir</td><td>0</td><td>0</td></tr>
+                    <tr><td>22</td><td>R. Odunze</td><td>0</td><td>0</td></tr>
+                    <tr><td>23</td><td>S. Diggs</td><td>0</td><td>0</td></tr>
+                    <tr><td>24</td><td>C. Sutton</td><td>0</td><td>0</td></tr>
                 </tbody>
             </table>
             <div class="stats-row">
@@ -368,11 +387,11 @@
                 </div>
                 <div class="stat-box">
                     <h4>Total Players</h4>
-                    <div class="value">12</div>
+                    <div class="value">24</div>
                 </div>
                 <div class="stat-box">
                     <h4>Avg Points</h4>
-                    <div class="value">7.08</div>
+                    <div class="value">4.04</div>
                 </div>
             </div>
         </div>
@@ -417,7 +436,7 @@
                 </div>
                 <div class="stat-box">
                     <h4>Avg Points</h4>
-                    <div class="value">6.25</div>
+                    <div class="value">5.92</div>
                 </div>
             </div>
         </div>
@@ -448,6 +467,7 @@
                     <tr><td>9</td><td>T. Kelce</td><td>1</td><td>4</td></tr>
                     <tr><td>10</td><td>G. Kittle</td><td>1</td><td>4</td></tr>
                     <tr><td>11</td><td>D. Kincaid</td><td>1</td><td>3</td></tr>
+                    <tr><td>12</td><td>S. Laporta</td><td>0</td><td>0</td></tr>
                 </tbody>
             </table>
             <div class="stats-row">
@@ -457,11 +477,11 @@
                 </div>
                 <div class="stat-box">
                     <h4>Total Players</h4>
-                    <div class="value">11</div>
+                    <div class="value">12</div>
                 </div>
                 <div class="stat-box">
                     <h4>Avg Points</h4>
-                    <div class="value">7.45</div>
+                    <div class="value">6.75</div>
                 </div>
             </div>
         </div>
@@ -472,7 +492,7 @@
     </div>
 
     <script>
-        function switchTab(tabName) {
+        function switchTab(event, tabName) {
             // Ocultar todas las tablas
             document.querySelectorAll('.table-container').forEach(el => {
                 el.classList.remove('active');
